@@ -1,0 +1,11 @@
+
+
+npm create vite@latest front2 -- --template react
+
+
+npm install -D tailwindcss postcss autoprefixer
+
+git config --global core.autocrlf true
+
+
+
