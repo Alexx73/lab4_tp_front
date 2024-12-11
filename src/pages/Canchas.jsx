@@ -8,13 +8,13 @@ function Canchas() {
             <div class="overflow-hidden min-w-max">
                 <div class="grid grid-cols-5 p-4 text-lg font-medium text-gray-900 bg-gray-100 border-t border-b border-gray-200 gap-x-16 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                     <div class="flex items-center">Horarios</div>
-                    <div class='bg-red-300' >Cancha 1</div>
+                    <div  >Cancha 1</div>
                     <div>Cancha 2</div>
                     <div>
                         Cancha 3
                     </div>
                     <div>
-                        Cancha 3
+                        Cancha 4
                     </div>
                     
 
