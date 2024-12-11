@@ -7,3 +7,18 @@
     padding-left: 0px;
     padding-right: 0px;
   }
+
+
+  
+/* styles.css */
+.date-picker-highlight {
+  transition: background-color 0.3s ease;
+}
+
+.date-picker-highlight:hover {
+  background-color: #e0f7fa; /* Color claro al pasar el mouse */
+}
+
+.date-picker-highlight:focus {
+  background-color: #b2ebf2; /* Color más intenso al hacer foco */
+}
