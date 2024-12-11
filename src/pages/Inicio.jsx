@@ -18,20 +18,20 @@ const Inicio = () => {
         console.log(`Fecha seleccionada: ${dayOfWeek}, ${formattedDate}`);
         
         // Navegar a la página "Ver Reservas"
-        navigate('/ver-reservas', { state: { selectedDate: `${dayOfWeek}, ${formattedDate}` } });
+        navigate('/hacer-reserva', { state: { selectedDate: `${dayOfWeek}, ${formattedDate}` } });
     };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[500px] bg-gray-100">
-            <h1 className="text-3xl font-bold mb-4">Bienvenido al Club de Tenis</h1>
+            <h1 className="text-3xl font-bold mb-4">Bienvenido al Club de Padel Mi Canchita</h1>
             <img 
-                src="../assets/Mi-canchita.jpg" 
-                alt="Cancha de Tenis" 
+                src="src/assets/Mi-canchita.jpg"  
+                alt="Cancha de Padel" 
                 className="mb-4 rounded-lg shadow-md"
-                style={{ width: '80%', maxWidth: '600px' }}
+                style={{ width: '80%', maxWidth: '500px' }}
             />
             <p className="text-lg text-center mb-6">
-                Reserve su cancha de tenis fácilmente. Seleccione una fecha y haga su reserva.
+                Reserve su cancha fácilmente. Seleccione una fecha y haga su reserva.
             </p>
             <div className="mb-4">
                 <DatePicker

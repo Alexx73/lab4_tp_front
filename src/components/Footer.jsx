@@ -4,7 +4,7 @@ function Footer() {
   return (
        
 
-    <footer className="bg-white dark:bg-gray-900 mt-6 px-6">
+    <footer className="bg-white dark:bg-gray-900 mt-1s px-6">
         <div className="mx-auto w-full max-w-screen-2xl p-4 py-6 lg:py-8">
             <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
@@ -49,8 +49,8 @@ function Footer() {
                 </div>
             </div>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <div className="sm:flex sm:items-center sm:justify-between">
+        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4s" />
+        {/* <div className="sm:flex sm:items-center sm:justify-between">
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" className="hover:underline">Flowbite™</a>. All Rights Reserved.
             </span>
             <div className="flex mt-4 sm:justify-center sm:mt-0">
@@ -85,7 +85,7 @@ function Footer() {
                     <span className="sr-only">Dribbble account</span>
                 </a>
             </div>
-        </div>
+        </div> */}
         </div>
     </footer>
 
