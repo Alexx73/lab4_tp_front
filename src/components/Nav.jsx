@@ -5,6 +5,7 @@ import Inicio from '../pages/Inicio';
 import VerReservas from '../pages/VerReservas';
 import Reservas from '../pages/Reservas';
 import paddleLogo from '../assets/paddle.png'; // Importa la imagen
+import VerCanchas from '../pages/VerCanchas';
 
 function Nav() {
 
@@ -55,7 +56,7 @@ function Nav() {
         <div className="p-4">
           <Routes>
             <Route path="/" element={<Inicio />} />
-            <Route path="/ver-canchas" element={<Reservas />} />
+            <Route path="/ver-canchas" element={<VerCanchas />} />
             <Route path="/ver-reservas" element={<VerReservas />} />
             <Route path="/hacer-reserva" element={<Reservas />} />
           </Routes>
