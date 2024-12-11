@@ -7,14 +7,15 @@ import FormReservas2 from '../components/FormReservas2'
 
 function Reservas() {
   return (
-    <div className="flex w-full">
-      {/* Componente Canchas ocupa el 80% del ancho */}
-      <div className="flex-1 ">
+    
+    <div className="flex flex-col md:flex-row w-full mx auto">
+      {/* Componente Canchas ocupa el 100% en pantallas pequeñas y 80% en medianas/grandes */}
+      <div className="w-full md:w-5/7 min-w-[900px] max-w-[1200px] ">
         <Canchas />
       </div>
 
-      {/* Componente FormReservas ocupa el 20% del ancho */}
-      <div className="w-1/4">
+      {/* Componente FormReservas ocupa el 100% en pantallas pequeñas y 20% en medianas/grandes */}
+      <div className="w-full md:w-1/5 min-w-[200px] max-w-[300px] mt-4 md:mt-0 ">
         <FormReservas2 />
       </div>
     </div>

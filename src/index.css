@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.columna {
+    width: 50px; /* Ajusta el valor según el ancho que necesites */
+    padding-left: 0px;
+    padding-right: 0px;
+  }

@@ -7,6 +7,8 @@ import Nav from './components/Nav'
 import Footer from './components/Footer'
 
 import Reservas from './pages/Reservas'
+import VerReservas from './pages/VerReservas'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,12 +19,15 @@ function App() {
   
         <Nav/>
 
-        <Reservas/>
+        {/* <Reservas/> */}
 
-        
+        {/* <VerReservas/> */}
+
+      
         <Footer/>
-     
         </div>
+       
+
 
 
 
