@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 
 
 import Canchas from './Canchas'
-import FormReservas from '../components/FormReservas'
 import FormReservas2 from '../components/FormReservas2'
 
 

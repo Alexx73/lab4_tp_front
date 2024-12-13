@@ -5,7 +5,9 @@ import Inicio from '../pages/Inicio';
 import VerReservas from '../pages/VerReservas';
 import Reservas from '../pages/Reservas';
 import paddleLogo from '../assets/paddle.png'; // Importa la imagen
+import ListaCanchas from '../pages/ListaCanchas';
 import VerCanchas from '../pages/VerCanchas';
+
 
 function Nav() {
 
