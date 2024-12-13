@@ -10,6 +10,7 @@ function Reservas(props) {
 
   // Utiliza useLocation para acceder a las props pasadas
   const location = useLocation();
+  const fechaSeleccionadaPorUsuario = props.state
 
 
   // Obtiene la fecha actual
@@ -18,6 +19,9 @@ function Reservas(props) {
   const fechaFormateada = fechaActual.toLocaleDateString('es-ES', opcionesFormato);
 
   let fechaReserva = location.state && location.state.selectedDate ? location.state.selectedDate : fechaFormateada
+
+  const canchas = ["Cancha 1", "Cancha 2", "Cancha 3", "Cancha 4", "Cancha 5", "Cancha 6"];
+
 
       // Registra las props en la consola
       // console.log(location.state);
@@ -32,12 +36,12 @@ function Reservas(props) {
     <div className="flex flex-col md:flex-row w-full mx auto">
       {/* Componente Canchas ocupa el 100% en pantallas pequeñas y 80% en medianas/grandes */}
       <div className="w-full md:w-5/7 min-w-[900px] max-w-[1200px] ">
-        <Canchas />
+        <Canchas listaCanchas={canchas} />
       </div>
 
       {/* Componente FormReservas ocupa el 100% en pantallas pequeñas y 20% en medianas/grandes */}
       <div className="w-full md:w-1/5 min-w-[200px] max-w-[300px] mt-4 md:mt-0 ">
-        <FormReservas2 />
+        <FormReservas2  listaCanchas={canchas} fechaSeleccionada={fechaSeleccionadaPorUsuario} fechaRes={fechaReserva}  />
       </div>
     </div>
     </div>

@@ -14,11 +14,17 @@ const Inicio = () => {
         
         // Formatear la fecha a "día, dd-MM-yyyy"
         const dayOfWeek = date.toLocaleDateString('es-ES', { weekday: 'long' }); // Obtener el día de la semana en español
-        const formattedDate = format(date, 'dd-MM-yyyy'); // Formato de fecha
-        console.log(`Fecha seleccionada: ${dayOfWeek}, ${formattedDate}`);
+        // const formattedDate = format(date, 'dd-MM-yyyy'); // Formato de fecha
+        const formattedDate = format(date, 'yyyy-MM-dd'); // Formato de fecha
+
+        // console.log(`Fecha seleccionada: ${dayOfWeek}, ${formattedDate}`);
         
         // Navegar a la página "Ver Reservas"
-        navigate('/hacer-reserva', { state: { selectedDate: `${dayOfWeek}, ${formattedDate}` } });
+        // navigate('/hacer-reserva', { state: { selectedDate: `${dayOfWeek}, ${formattedDate}` } });
+        
+        navigate('/hacer-reserva', { state: { selectedDate: `${formattedDate}` } });
+        console.log("inicio: " + state.selectedDate)
+
     };
 
     return (

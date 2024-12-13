@@ -6,6 +6,8 @@ function FormReservas({ setCanchas }) { // Asegúrate de recibir setCanchas como
     const [cancha, setCancha] = useState({ nombre: '', techada: false });
     const [isButtonDisabled, setIsButtonDisabled] = useState(true); // Estado para habilitar/deshabilitar el botón
 
+
+
     // Función para verificar si todos los campos están completos
     useEffect(() => {
         if (cancha.nombre.trim() && typeof cancha.techada === 'boolean') {
