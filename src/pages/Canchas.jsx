@@ -4,9 +4,7 @@ import Ocupado from '../components/Ocupado'
 
 function Canchas(props) {
     const listaCanchas = ["Cancha 1", "Cancha 2", "Cancha 3", "Cancha 4", "Cancha 5"];
-
     const listaCanchas2 = props.listaCanchas
-
     const cantHoras = 10
     
     // Crear el objeto de horarios dinámicamente basado en listaCanchas
