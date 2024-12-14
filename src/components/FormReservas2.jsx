@@ -16,7 +16,7 @@ function FormReservas(props) {
 
     // Generar horas disponibles
     const horasDisponibles = [];
-    for (let h = 12; h <= 21; h++) {
+    for (let h = 14; h <= 21; h++) {
         const horaString = `${h < 10 ? '0' + h : h}:00`;
         horasDisponibles.push(horaString);
     }
