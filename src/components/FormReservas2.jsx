@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function FormReservas(props) {
     const listaCanchas = props.listaCanchas;
@@ -48,10 +49,52 @@ function FormReservas(props) {
     }, [nombre, telefono, cancha, dia, hora, duracion]);
 
     // Función para agregar la reserva
-    function AgregarReserva(event) {
+    async function AgregarReserva(event) {
         event.preventDefault();
-        alert(`Nombre: ${nombre}\nTeléfono: ${telefono}\nDía: ${dia}\nHora de Inicio: ${hora}\nHora fin: ${hora + duracion}   \nDuración: ${duracion}\nCancha: ${cancha}`);
+        alert(`Día: ${dia}\nHora de Inicio: ${hora}\nDuración: ${duracion}\nTeléfono: ${telefono}\nNombre: ${nombre}\nCancha: ${cancha.id}`);
+        try {
+            // Realizar solicitud al backend para crear una nueva cancha
+            const response = await axios.post(`http://localhost:5555/reservas/`, {
+                dia: "2024-12-29",
+                hora: hora,
+                duracion: duracion,
+                telefono: telefono,
+                nombre_contacto: nombre,
+                cancha_id: 1
+
+                //// Schema ///////
+            // {
+            //     "dia": "string",
+            //     "hora": "string",
+            //     "duracion": 0,
+            //     "telefono": "string",
+            //     "nombre_contacto": "string",
+            //     "cancha_id": 0
+            //   }              
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json", // Asegúrate de que el tipo de contenido sea JSON
+                },
+            }
+        );
+
+           
+            // Actualizar la lista local de canchas con los nuevos datos
+            alert("Reserva creada correctamente");
+            // Reiniciar el formulario
+
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                alert(error.response.data.detail); // Muestra el mensaje del backend
+            } else {
+                console.error("Error al crear la Reserva:", error);
+                alert("Hubo un error al crear la Reserva", error);
+            }
+        } 
     }
+
+  
 
     return (
         <section className="bg-white dark:bg-gray-900">

@@ -1,0 +1,13 @@
+
+1- Creacion de Reservas
+
+2- modificacion de Reservas
+
+3- consultar reservas por dia y por cancha
+
+4- validar en el back q sea horario valido entre 14 y 22 hs
+
+5-
+ 
+
+

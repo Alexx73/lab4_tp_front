@@ -8,7 +8,6 @@ function VerReservas() {
   const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const fechaActual = new Date(); 
   const date = new Date();
   const formattedDate = date.toLocaleString("es-ES", { month: "long" });

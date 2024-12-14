@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext  } from 'react';
+import { CanchasContext } from '../context/CanchasContext';
+
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
 import { es } from 'date-fns/locale'; // Importar español
+import { useNavigate } from 'react-router-dom';
+
 
 const Inicio = () => {
-    const [selectedDate, setSelectedDate] = useState(null);
+    const { canchas, loading, error } = useContext(CanchasContext); // Acceder al contexto
+
+    if (loading) return <p>Cargando canchas...</p>;
+    if (error) return <p>Error: {error}</p>;
+    
     const navigate = useNavigate();
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -21,7 +29,8 @@ const Inicio = () => {
         
         // Navegar a la página "Ver Reservas"
         // navigate('/hacer-reserva', { state: { selectedDate: `${dayOfWeek}, ${formattedDate}` } });
-        
+        console.log("lista de Canchas", canchas)
+
         navigate('/hacer-reserva', { state: { selectedDate: `${formattedDate}` } });
         console.log("inicio: " + state.selectedDate)
 
