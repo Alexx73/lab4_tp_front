@@ -14,3 +14,17 @@ npm install react-datepicker
 
 npm install react-datepicker date-fns
 
+
+Para usar mi context en un componente importar
+
+{ useContext }
+import { CanchasContext } from '../context/CanchasContext';
+
+const { canchas, loading, error } = useContext(CanchasContext); // Acceder al contexto
+
+
+opcional
+if (loading) return <p>Cargando canchas...</p>;
+if (error) return <p>Error: {error}</p>;
+
+

@@ -74,12 +74,35 @@ function ListaCanchas() {
 
       closeModal(); // Cerrar el modal después de guardar
       alert("Cancha actualizada correctamente");
-      fetchCanchas()
+      // fetchCanchas()
     } catch (error) {
       console.error("Error al actualizar la cancha:", error);
       alert("Hubo un error al actualizar la cancha");
     }
   };
+
+  async function handleDeleteCancha(id) {
+    console.log("id: " + id);
+    
+    // Confirmar la eliminación
+    const confirmDelete = window.confirm(`¿Estás seguro de que deseas borrar la cancha con ID: ${id}?`);
+    if (!confirmDelete) return;
+  
+    try {
+      // Enviar solicitud DELETE al backend
+      await axios.delete(`http://localhost:5555/canchas/${id}`);
+  
+      // Actualizar el estado local eliminando la cancha borrada
+      setCanchas((prevCanchas) => prevCanchas.filter((cancha) => cancha.id !== id));
+  
+      alert("Cancha borrada exitosamente");
+    } catch (error) {
+      setError("Error al borrar la cancha");
+      console.error("Error al borrar la cancha:", error);
+      alert("Hubo un error al borrar la cancha");
+    }
+  }
+  
 
 
 
@@ -106,7 +129,7 @@ function ListaCanchas() {
                   className="h-6 w-6 text-blue-600 cursor-pointer pl-0.5"
                 />
                 <MdDeleteForever
-                  onClick={() => alert("Borrar id: " + cancha.id)}
+                  onClick={() => handleDeleteCancha(cancha.id) }
                   className="h-6 w-6 text-red-600 cursor-pointer"
                 />
               </td>

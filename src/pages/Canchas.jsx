@@ -41,7 +41,7 @@ function Canchas(props) {
                 </div>
 
                 {listaCanchas2.map((cancha, index) => (
-                    <div key={index} className="grid grid-cols-11 px-2 py-5 text-lg text-gray-700 border-b border-gray-200 gap-x-4 dark:border-gray-700">
+                    <div key={index} className="grid grid-cols-11 px-2 py-4 text-sm text-gray-700 border-b border-gray-200 gap-x-4 dark:border-gray-700">
                         <div className="text-gray-500 dark:text-gray-400 pl-0">
                             {cancha}
                         </div>
