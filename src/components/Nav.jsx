@@ -6,6 +6,7 @@ import VerReservas from '../pages/VerReservas';
 import Reservas from '../pages/Reservas';
 import paddleLogo from '../assets/paddle.png';
 import VerCanchas from '../pages/VerCanchas';
+import FormReservas from './FormReservas2';
 
 function Nav() {
   const fechaActual = new Date();
@@ -47,11 +48,13 @@ function Nav() {
               <Route path="/ver-canchas" element={<VerCanchas />} />
               <Route path="/ver-reservas" element={<VerReservas />} />
               <Route path="/hacer-reserva" element={<Reservas />} />
+              <Route path="/form-reserva" element={<FormReservas />} />
             </Routes>
           </div>
         </div>
       </Router>
     </CanchasProvider>
+    
   );
 }
 

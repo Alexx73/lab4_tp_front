@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Libre from '../components/Libre'
 import Ocupado from '../components/Ocupado'
 
+
+import { CanchasContext } from '../context/CanchasContext';
+
+
 function Canchas(props) {
+
+    const { canchas, loading, error } = useContext(CanchasContext); // Acceder al contexto
+
     const listaCanchas = ["Cancha 1", "Cancha 2", "Cancha 3", "Cancha 4", "Cancha 5"];
     const listaCanchas2 = props.listaCanchas
+    console.log("Canchas.jsx"+ canchas)
     const cantHoras = 8
     
     // Crear el objeto de horarios dinámicamente basado en listaCanchas
-    const horarios = listaCanchas2.reduce((acc, cancha) => {
+    const horarios = listaCanchas.reduce((acc, cancha) => {
         acc[cancha] = new Array(cantHoras).fill(false); // Inicializa todas las horas como libres
        
         return acc;
@@ -40,7 +48,7 @@ function Canchas(props) {
                     {/* <div className="w-8">22</div> */}
                 </div>
 
-                {listaCanchas2.map((cancha, index) => (
+                {listaCanchas.map((cancha, index) => (
                     <div key={index} className="grid grid-cols-9 px-2 py-4 text-sm text-gray-700 border-b border-gray-200 gap-x-4 dark:border-gray-700">
                         <div className="text-gray-500 dark:text-gray-400 pl-0">
                             {cancha}

@@ -1,9 +1,14 @@
-import React , { useState }from 'react'
+import React , { useState, useContext }from 'react'
 import { useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale'; // Importar español
+
+/// context
+
+import { CanchasContext } from '../context/CanchasContext';
+
 
 
 import Canchas from './Canchas'
@@ -28,7 +33,10 @@ function Reservas(props) {
 
   let fechaReserva = location.state && location.state.selectedDate ? location.state.selectedDate : fechaFormateada
 
-  const canchas = ["Cancha 1", "Cancha 2", "Cancha 3", "Cancha 4", "Cancha 5", "Cancha 6"];
+  const { canchas } = useContext(CanchasContext); // Acceder al contexto
+  console.log("Reservas canchas por context" , canchas)
+
+  // const canchas = ["Cancha 1", "Cancha 2", "Cancha 3", "Cancha 4", "Cancha 5", "Cancha 6"];
 
 
       // Registra las props en la consola
@@ -57,7 +65,7 @@ function Reservas(props) {
               <button 
                 onClick={ () => alert("fecha de busqueda: " + selectedDate)}
                 type="button"
-                class="text-white text-left bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                className="text-white text-left bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                   Green
               </button>
 

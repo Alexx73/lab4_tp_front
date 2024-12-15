@@ -31,8 +31,8 @@ const Inicio = () => {
         // navigate('/hacer-reserva', { state: { selectedDate: `${dayOfWeek}, ${formattedDate}` } });
         console.log("lista de Canchas", canchas)
 
-        navigate('/hacer-reserva', { state: { selectedDate: `${formattedDate}` } });
-        console.log("inicio: " + state.selectedDate)
+        navigate('/hacer-reserva', { state: { selectedDate: `${formattedDate}` }, listaCanchas: canchas });
+        // console.log("inicio: " + state)
 
     };
 

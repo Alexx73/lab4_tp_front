@@ -1,15 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
+import { CanchasContext } from '../context/CanchasContext';
+
+
+
+
+// if (loading) return <p>Cargando canchas...</p>;
+// if (error) return <p>Error: {error}</p>;
+
+
 function FormReservas(props) {
+    // Usar las canchas de las props (puedes quitar el contexto si no lo usas aquí)
     const listaCanchas = props.listaCanchas;
-    console.log("Fecha para FormReservas: " + props.fechaRes)
 
     // Estado para almacenar los valores del formulario
     const [nombre, setNombre] = useState('');
     const [telefono, setTelefono] = useState('');
-    const [cancha, setCancha] = useState('');
-    const [dia, setDia] = useState(''); // Estado para la fecha seleccionada
+    const [cancha, setCancha] = useState(''); // Aquí se guardará el ID de la cancha seleccionada
+    const [dia, setDia] = useState('');
     const [hora, setHora] = useState('');
     const [duracion, setDuracion] = useState(1);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -25,19 +34,16 @@ function FormReservas(props) {
     useEffect(() => {
         const hoy = new Date().toISOString().split('T')[0]; // Fecha actual en formato YYYY-MM-DD
         if (props.fechaRes) {
-            const fechaSeleccionada = props.fechaRes
+            const fechaSeleccionada = props.fechaRes;
             if (/^\d{4}-\d{2}-\d{2}$/.test(fechaSeleccionada)) {
-                setDia(fechaSeleccionada); // Fecha válida desde props
-                console.log("Fecha válida recibida:", fechaSeleccionada);
+                setDia(fechaSeleccionada);
             } else {
-                console.warn("Fecha inválida recibida:", fechaSeleccionada);
                 setDia(hoy); // Fallback a la fecha actual
             }
         } else {
-            setDia(hoy); // Si no hay fecha, usar fecha actual
-            console.log("No se recibió fecha en props, usando la fecha actual:", hoy);
+            setDia(hoy);
         }
-    }, [props.fechaSeleccionada]);
+    }, [props.fechaRes]);
 
     // useEffect para habilitar/deshabilitar el botón
     useEffect(() => {
@@ -51,51 +57,36 @@ function FormReservas(props) {
     // Función para agregar la reserva
     async function AgregarReserva(event) {
         event.preventDefault();
-        alert(`Día: ${dia}\nHora de Inicio: ${hora}\nDuración: ${duracion}\nTeléfono: ${telefono}\nNombre: ${nombre}\nCancha: ${cancha.id}`);
+        alert(`Día: ${dia}\nHora de Inicio: ${hora}\nDuración: ${duracion}\nTeléfono: ${telefono}\nNombre: ${nombre}\nCancha ID: ${cancha}`);
         try {
-            // Realizar solicitud al backend para crear una nueva cancha
-            const response = await axios.post(`http://localhost:5555/reservas/`, {
-                dia: "2024-12-29",
-                hora: hora,
-                duracion: duracion,
-                telefono: telefono,
+            await axios.post(`http://localhost:5555/reservas/`, {
+                dia,
+                hora,
+                duracion,
+                telefono,
                 nombre_contacto: nombre,
-                cancha_id: 1
-
-                //// Schema ///////
-            // {
-            //     "dia": "string",
-            //     "hora": "string",
-            //     "duracion": 0,
-            //     "telefono": "string",
-            //     "nombre_contacto": "string",
-            //     "cancha_id": 0
-            //   }              
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json", // Asegúrate de que el tipo de contenido sea JSON
-                },
-            }
-        );
-
-           
-            // Actualizar la lista local de canchas con los nuevos datos
+                cancha_id: parseInt(cancha), // Convertir cancha a número
+            }, {
+                headers: { "Content-Type": "application/json" },
+            });
             alert("Reserva creada correctamente");
             // Reiniciar el formulario
-
+            setNombre('');
+            setTelefono('');
+            setCancha('');
+            setHora('');
+            setDuracion(1);
         } catch (error) {
             if (error.response && error.response.status === 400) {
-                alert(error.response.data.detail); // Muestra el mensaje del backend
+                alert(error.response.data.detail);
             } else {
                 console.error("Error al crear la Reserva:", error);
-                alert("Hubo un error al crear la Reserva", error);
+                alert("Hubo un error al crear la Reserva");
             }
-        } 
+        }
     }
 
-  
-
+    // Renderizado
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="px-4 mx-auto max-w-2xl">
@@ -106,12 +97,10 @@ function FormReservas(props) {
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
                             <input 
                                 type="text" 
-                                name="name" 
                                 id="name" 
                                 value={nombre}
                                 onChange={(e) => setNombre(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
-                                placeholder="Ingrese su Nombre" 
+                                className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5"
                                 required 
                             />
                         </div>
@@ -119,14 +108,11 @@ function FormReservas(props) {
                             <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
                             <input 
                                 type="tel" 
-                                name="telefono" 
                                 id="telefono"
                                 value={telefono}
                                 onChange={(e) => setTelefono(e.target.value)}
-                                minLength="10" 
-                                maxLength="10" 
                                 pattern="\d{10}" 
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                                className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5" 
                                 placeholder="Ingrese su número" 
                                 required 
                             />
@@ -136,9 +122,9 @@ function FormReservas(props) {
                             <input 
                                 type="date"
                                 id="dia"
-                                value={dia} // Estado sincronizado con el input
-                                onChange={(e) => setDia(e.target.value)} // Actualizar el estado cuando el usuario cambie la fecha
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                                value={dia}
+                                onChange={(e) => setDia(e.target.value)}
+                                className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5" 
                             />
                         </div>
                         <div>
@@ -147,7 +133,7 @@ function FormReservas(props) {
                                 id="hora"
                                 value={hora}
                                 onChange={(e) => setHora(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5"
                             >
                                 <option value="">Selecciona una hora</option>
                                 {horasDisponibles.map((horaOption, index) => (
@@ -163,32 +149,32 @@ function FormReservas(props) {
                                 min={1}
                                 max={8}
                                 value={duracion}
-                                onChange={(e) => setDuracion(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                onChange={(e) => setDuracion(parseInt(e.target.value))}
+                                className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5"
                             />
                         </div>
                         <div>
-                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cancha</label>
+                            <label htmlFor="cancha" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cancha</label>
                             <select 
-                                id="category" 
+                                id="cancha" 
                                 value={cancha}
                                 onChange={(e) => setCancha(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5"
                             >
-                                <option value="">Elija cancha</option>
-                                {listaCanchas.map((cancha) => <option key={cancha} value={cancha}>{cancha}</option>)}
+                                <option value="">Elija una cancha</option>
+                                {listaCanchas && listaCanchas.map((cancha) => (
+                                    <option key={cancha.id} value={cancha.id}>{cancha.nombre}</option>
+                                ))}
                             </select>
                         </div>
                     </div>
-                    <div className="lg:col-span-2">
-                        <button 
-                            disabled={isButtonDisabled}
-                            type="submit"
-                            className={`inline-flex items-center w-full px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white ${isButtonDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'} rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900`}
-                        >
-                            Agregar Reserva
-                        </button>
-                    </div>
+                    <button 
+                        disabled={isButtonDisabled}
+                        type="submit"
+                        className={`w-full px-5 py-2.5 mt-4 text-sm font-medium text-white rounded-lg ${isButtonDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'}`}
+                    >
+                        Agregar Reserva
+                    </button>
                 </form>
             </div>
         </section>

@@ -94,7 +94,7 @@ function VerReservas() {
               </th>
               <td className="px-1 py-4">{res.nombre_contacto}</td>
               <td className="px-6 py-4">{res.telefono}</td>
-              <td className="px-6 py-4">{res.cancha_id}</td>
+              <td className="px-6 py-4">{res.cancha}</td>
               <td className="px-6 py-4">{res.dia}</td>
               <td className="px-6 py-4">{res.hora}</td>
               <td className="px-6 py-4">{res.hora_fin}</td>
