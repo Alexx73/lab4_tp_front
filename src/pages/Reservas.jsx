@@ -16,7 +16,7 @@ import FormReservas2 from '../components/FormReservas2'
 
 
 function Reservas(props) {
-  const [selectedDate, setSelectedDate] = useState(null);
+  // const [selectedDate, setSelectedDate] = useState(null);
   const handleDateChange = (date) => {
     setSelectedDate(date);
   }
@@ -24,6 +24,10 @@ function Reservas(props) {
   // Utiliza useLocation para acceder a las props pasadas
   const location = useLocation();
   const fechaSeleccionadaPorUsuario = props.state
+  
+  ///
+  const { selectedDate, listaCanchas, canchaSeleccionada } = location.state || {}; // Si no hay estado, usar valores por defecto
+  console.log(location.state)
 
 
   // Obtiene la fecha actual
@@ -34,7 +38,7 @@ function Reservas(props) {
   let fechaReserva = location.state && location.state.selectedDate ? location.state.selectedDate : fechaFormateada
 
   const { canchas } = useContext(CanchasContext); // Acceder al contexto
-  console.log("Reservas canchas por context" , canchas)
+  // console.log("Reservas canchas por context" , canchas)
 
   // const canchas = ["Cancha 1", "Cancha 2", "Cancha 3", "Cancha 4", "Cancha 5", "Cancha 6"];
 
@@ -45,7 +49,7 @@ function Reservas(props) {
   return (
     
     <div className="text-center text-lg">
-            <h2 className="text-lg	 " >  
+            {/* <h2 className="text-lg	 " >  
               Disponibilidad para el día { fechaReserva }
             </h2>
             <div>
@@ -65,13 +69,13 @@ function Reservas(props) {
               <button 
                 onClick={ () => alert("fecha de busqueda: " + selectedDate)}
                 type="button"
-                className="text-white text-left bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                  Green
+                className="text-white text-left bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-10 py-2.5 text-center me-2 mb-2">
+                  Enviar
               </button>
 
-            </div>
+            </div> */}
 
-    <div className="flex flex-col md:flex-row w-full mx auto">
+      <div className="flex flex-col md:flex-row w-full mx auto">
       {/* Componente Canchas ocupa el 100% en pantallas pequeñas y 80% en medianas/grandes */}
       <div className="w-full md:w-5/7 min-w-[900px] max-w-[1200px] ">
         <Canchas listaCanchas={canchas} />

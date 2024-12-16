@@ -18,34 +18,44 @@ function FormReservas({ setCanchas }) { // Asegúrate de recibir setCanchas como
     }, [cancha]); // Solo dependemos de cancha
 
     async function AgregarCancha(event) {
-        event.preventDefault(); // Previene el envío del formulario
-
+        event.preventDefault(); // Prevenir el envío del formulario
+    
+        // Validar que el nombre de la cancha no esté vacío
         if (!cancha.nombre.trim()) {
             alert("El nombre de la cancha no puede estar vacío");
             return;
         }
-
+    
         try {
-            // Realizar solicitud al backend para crear una nueva cancha
-            const response = await axios.post(`http://localhost:5555/canchas/`, {
+            // Enviar la solicitud al backend para crear la cancha
+            const response = await axios.post("http://localhost:5555/canchas/", {
                 nombre: cancha.nombre,
                 techada: cancha.techada,
             });
-
-            // Actualizar la lista local de canchas con los nuevos datos
-            setCanchas((prevCanchas) => [...prevCanchas, response.data]); // Agregar la nueva cancha a la lista
-
+    
+            // Actualizar el estado con la nueva cancha
+            setCanchas((prevCanchas) => [...prevCanchas, response.data]);
+    
             alert("Cancha creada correctamente");
-            setCancha({ nombre: '', techada: false }); // Reiniciar el formulario
+    
+            // Reiniciar el formulario
+            setCancha({ nombre: "", techada: false });
         } catch (error) {
-            if (error.response && error.response.status === 400) {
-                alert(error.response.data.detail); // Muestra el mensaje del backend
-            } else {
-                console.error("Error al crear la cancha:", error);
-                alert("Hubo un error al crear la cancha");
-            }
+            // Manejar errores del backend o del cliente
+            alert("Error al crear la cancha:", error);
+            // if (error.response) {
+            //     if (error.response.status === 400) {
+            //         alert(error.response.data.detail); // Mostrar mensaje detallado del backend
+            //     } else {
+            //         alert(`Error del servidor: ${error.response.status}`);
+            //     }
+            // } else {
+            //     console.error("Error al crear la cancha:", error);
+            //     alert("Hubo un error al crear la cancha. Por favor, intenta nuevamente.");
+            // }
         }
     }
+    
 
     return (
         <section className="bg-white dark:bg-gray-900">

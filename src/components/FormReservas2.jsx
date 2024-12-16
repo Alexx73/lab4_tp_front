@@ -13,6 +13,7 @@ import { CanchasContext } from '../context/CanchasContext';
 function FormReservas(props) {
     // Usar las canchas de las props (puedes quitar el contexto si no lo usas aquí)
     const listaCanchas = props.listaCanchas;
+    console.log("FormReservas", listaCanchas)
 
     // Estado para almacenar los valores del formulario
     const [nombre, setNombre] = useState('');

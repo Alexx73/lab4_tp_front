@@ -1,12 +1,12 @@
 
 1- Creacion de Reservas - agregar la lista de canchas que viene por context al input del formulario
-para crear reservas, ahora tiene hardcodeado cancha 1
+para crear reservas, ahora tiene hardcodeado cancha 1 - listo ahora toma todas la canchas
 
-2- modificacion de Reservas
+2- modificacion de Reservas -- funciona, falta testear bien.
 
-3- consultar reservas por dia y por cancha
+3- consultar reservas por dia y por cancha -- implementado en la API- falta el front
 
-4- validar en el back q sea horario valido entre 14 y 22 hs
+4- validar en el back q sea horario valido entre 14 y 22 hs -- listo
 
 5- borrar canchas - listo, falta verificar que la cancha a borrar no tenga reservas
 

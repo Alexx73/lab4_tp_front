@@ -8,6 +8,10 @@ function VerReservas() {
   const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedReserva, setSelectedReserva] = useState(null);
+  const [canchas, setCanchas] = useState([]); // Lista de canchas disponibles
+
   const fechaActual = new Date(); 
   const date = new Date();
   const formattedDate = date.toLocaleString("es-ES", { month: "long" });
@@ -17,6 +21,7 @@ function VerReservas() {
     const fetchReservas = async () => {
       try {
         const response = await axios.get('http://localhost:5555/reservas');
+        console.log("respuest get reservas",response.data)
 
         const sortedCanchas = response.data.sort((a, b) => {
           if (a.cancha_id === b.cancha_id) {
@@ -34,8 +39,75 @@ function VerReservas() {
       }
     };
 
+    const fetchCanchas = async () => {
+      try {
+        const response = await axios.get('http://localhost:5555/canchas');
+        setCanchas(response.data); // Guardar la lista de canchas en el estado
+      } catch (error) {
+        console.error("Error al obtener las canchas:", error);
+      }
+    };
+
     fetchReservas();
+    fetchCanchas();
   }, []);
+
+  const handleEditReservas = (reserva) => {
+    setSelectedReserva(reserva);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedReserva(null);
+    setShowModal(false);
+  };
+
+  //
+//   await axios.post(`http://localhost:5555/reservas/`, {
+//     dia,
+//     hora,
+//     duracion,
+//     telefono,
+//     nombre_contacto: nombre,
+//     cancha_id: parseInt(cancha), // Convertir cancha a número
+// }, {
+//     headers: { "Content-Type": "application/json" },
+// }
+//
+  const handleSaveChanges = async () => {
+    if (!selectedReserva) return;
+   
+    try {
+      console.log("id seleccionado: ", selectedReserva.id )
+      const response = await axios.patch(
+        `http://localhost:5555/reservas/${selectedReserva.id}`,
+        {
+          dia: selectedReserva.dia,
+          hora: selectedReserva.hora,
+          duracion: 1,
+          telefono: selectedReserva.telefono,
+          nombre_contacto: selectedReserva.nombre_contacto,         
+          cancha_id: selectedReserva.cancha_id,
+        },{
+          headers: { "Content-Type": "application/json" },
+      }
+
+      );
+
+      // Actualizar la lista local con los nuevos datos
+      setReservas((prevReservas) =>
+        prevReservas.map((res) =>
+          res.id === selectedReserva.id ? response.data : res
+        )
+      );
+
+      alert("Reserva actualizada correctamente");
+      handleCloseModal();
+    } catch (error) {
+      console.error("Error al actualizar la reserva:", error);
+      alert("Hubo un error al actualizar la reserva." + error.detail);
+    }
+  };
 
   if (loading) {
     return <Cargando />;
@@ -43,28 +115,6 @@ function VerReservas() {
 
   if (error) {
     return <div className='min-h-[300px]'><p>{error}</p></div>;
-  }
-
-  function handleEditReservas(reserva) {
-    alert("Edit reservas id: " + reserva.id);
-  }
-
-  async function handleDeleteReservas(reserva) {
-    const confirmDelete = window.confirm(`¿Estás seguro de que deseas borrar la reserva con ID: ${reserva.id}?`);
-    if (!confirmDelete) return;
-
-    try {
-      const response = await axios.delete(`http://localhost:5555/reservas/${reserva.id}`);
-
-      if (response.status === 200) {
-        // Actualizar el estado local para eliminar la reserva borrada
-        setReservas((prevReservas) => prevReservas.filter((r) => r.id !== reserva.id));
-        alert("Reserva eliminada correctamente.");
-      }
-    } catch (error) {
-      console.error("Error al eliminar la reserva:", error);
-      alert("Hubo un error al eliminar la reserva: " + (error.response ? error.response.data.detail : error.message));
-    }
   }
 
   return (
@@ -78,10 +128,9 @@ function VerReservas() {
             <th scope="col" className="px-1 py-3">ID</th>
             <th scope="col" className="px-6 py-3">Nombre</th>
             <th scope="col" className="px-6 py-3">Teléfono</th>
-            <th scope="col" className="px-6 py-3">Cancha</th>
+            <th scope="col" className="px-6 py-3">Id Cancha</th>
             <th scope="col" className="px-6 py-3">Día</th>
             <th scope="col" className="px-6 py-3">Inicio</th>
-            <th scope="col" className="px-6 py-3">Fin</th>
             <th scope="col" className="px-6 py-3">Duración</th>
             <th scope="col" className="px-6 py-3">Acción</th>
           </tr>
@@ -94,10 +143,10 @@ function VerReservas() {
               </th>
               <td className="px-1 py-4">{res.nombre_contacto}</td>
               <td className="px-6 py-4">{res.telefono}</td>
-              <td className="px-6 py-4">{res.cancha}</td>
+              <td className="px-6 py-4">{res.cancha_id}</td>  
+              {/* // res.cancha_id */}
               <td className="px-6 py-4">{res.dia}</td>
               <td className="px-6 py-4">{res.hora}</td>
-              <td className="px-6 py-4">{res.hora_fin}</td>
               <td className="px-6 py-4">
                 {res.duracion > 1 ? `${res.duracion} horas` : `${res.duracion} hora`}
               </td>
@@ -115,6 +164,125 @@ function VerReservas() {
           ))}
         </tbody>
       </table>
+
+      {/* Modal */}
+
+      {showModal && selectedReserva && (
+
+<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div className="bg-white rounded-lg p-6 max-w-sm w-3/4">
+    <h3 className="text-lg font-bold mb-4 text-center">Editar Reserva Id: {selectedReserva.id}</h3>
+    <form>
+      <div className="mb-4 flex flex-col items-center">
+        <label className="block text-sm font-medium text-center mb-2">Nombre</label>
+        <input
+          type="text"
+          value={selectedReserva.nombre_contacto}
+          onChange={(e) =>
+            setSelectedReserva({ ...selectedReserva, nombre_contacto: e.target.value })
+          }
+          className="border rounded-lg w-3/4 p-2 mx-auto" // Centrando el input
+        />
+      </div>
+      <div className="mb-4 flex flex-col items-center">
+        <label className="block text-sm font-medium text-center mb-2">Teléfono</label>
+        <input
+          type="text"
+          value={selectedReserva.telefono}
+          onChange={(e) =>
+            setSelectedReserva({ ...selectedReserva, telefono: e.target.value })
+          }
+          className="border rounded-lg w-3/4 p-2 mx-auto" // Centrando el input
+        />
+      </div>
+      <div className="mb-4 flex flex-col items-center">
+        <label className="block text-sm font-medium text-center mb-2">Día</label>
+        <input
+          type="date"
+          value={selectedReserva.dia}
+          onChange={(e) =>
+            setSelectedReserva({ ...selectedReserva, dia: e.target.value })
+          }
+          className="border rounded-lg w-3/4 p-2 mx-auto" // Centrando el input
+        />
+      </div>
+
+      
+      <div className="mb-4 flex flex-col items-center">
+        <label className="block text-sm font-medium text-center mb-2">Hora</label>
+        <select
+          value={selectedReserva.hora}
+          onChange={(e) =>
+            setSelectedReserva({ ...selectedReserva, hora: e.target.value })
+          }
+          className="border rounded-lg w-3/4 p-2 mx-auto" // Centrando el input
+        >
+          {Array.from({ length: 8 }, (_, i) => {
+            const hour = i + 14;
+            const formattedHour = `${hour < 10 ? '0' : ''}${hour}:00`;
+            return (
+              <option key={formattedHour} value={formattedHour}>
+                {formattedHour}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div className="mb-4 flex flex-col items-center">
+        <label className="block text-sm font-medium text-center mb-2">Duración</label>
+        <input
+          type="number"
+          value={selectedReserva.duracion}
+          onChange={(e) =>
+            setSelectedReserva({ ...selectedReserva, duracion: e.target.value })
+          }
+          className="border rounded-lg w-3/4 p-2 mx-auto" // Centrando el input
+          min={1}
+          max={8}
+        />
+      </div>
+      <div className="mb-4 flex flex-col items-center">
+        <label className="block text-sm font-medium text-center mb-2">Cancha</label>
+        <select
+          value={selectedReserva.cancha_id}
+          onChange={(e) =>
+            setSelectedReserva({ ...selectedReserva, cancha_id: e.target.value })
+          }
+          className="border rounded-lg w-3/4 p-2 mx-auto" // Centrando el input
+        >
+          {canchas.map((cancha) => (
+            <option key={cancha.id} value={cancha.id}>
+              {cancha.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="flex justify-center space-x-4 mt-4">
+        <button
+          type="button"
+          onClick={handleCloseModal}
+          className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          onClick={handleSaveChanges}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  
+
+  )}
+
+
+      {/* /// */}
     </div>
   );
 }
