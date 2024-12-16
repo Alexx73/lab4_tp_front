@@ -9,8 +9,10 @@ import canchaImage from '../assets/Mi-canchita.jpg'; // Importar imagen correcta
 
 const Inicio = () => {
     const { canchas, loading, error } = useContext(CanchasContext); // Acceder al contexto
-    const [cancha, setCancha] = useState(0); // ID de la cancha seleccionada
+    const [cancha, setCancha] = useState(); // ID de la cancha seleccionada
     const [selectedDate, setSelectedDate] = useState(null); // Fecha seleccionada
+    const [selectedCanchas, setSelectedCanchas] = useState([]); // Fecha seleccionada
+
     const navigate = useNavigate();
 
     // Manejar selección de fecha
@@ -18,23 +20,39 @@ const Inicio = () => {
         setSelectedDate(date);
     };
 
+    function handleSelectedCanchas(e){
+        const selectedId = parseInt(e.target.value, 10); // Convertir el valor a entero
+        setCancha(selectedId); // Actualizar el estado de la cancha seleccionada
+        
+        if (selectedId === 0) {
+            // Si se selecciona "Todas"
+            setSelectedCanchas(canchas);
+        } else {
+            // Buscar la cancha específica seleccionada
+            const canchaSeleccionada = canchas.find((c) => c.id === selectedId);
+            setSelectedCanchas(canchaSeleccionada ? [canchaSeleccionada] : []);
+        }
+    }
+
     // Manejar el envío del formulario
     const handleEnviar = () => {
         if (!selectedDate) {
             alert('Por favor, seleccione una fecha.');
             return;
         }
-        if (!cancha) {
+        if (cancha === null || cancha === undefined) {
             alert('Por favor, seleccione una cancha.');
             return;
         }
 
         const formattedDate = format(selectedDate, 'yyyy-MM-dd'); // Formatear la fecha
+
         navigate('/hacer-reserva', {
             state: {
                 selectedDate: formattedDate,
                 listaCanchas: canchas,
-                canchaSeleccionada: cancha,
+                idCanchaSeleccionada: cancha,
+                selectedCanchas: selectedCanchas
             },     
         },
        
@@ -79,10 +97,11 @@ const Inicio = () => {
                     <select 
                         id="cancha" 
                         value={cancha}
-                        onChange={(e) => setCancha(e.target.value)}
+                        onChange={(e) => handleSelectedCanchas(e)} // Convertir a entero
                         className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5"
                     >
                         <option value="">Elija una cancha</option>
+                        <option value="0">Todas</option> {/* Opción para seleccionar todas las canchas */}
                         
                         {canchas && canchas.map((cancha) => (
                             <option key={cancha.id} value={cancha.id}>{cancha.nombre}</option>

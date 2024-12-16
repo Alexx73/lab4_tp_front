@@ -10,14 +10,14 @@ import { es } from 'date-fns/locale'; // Importar español
 function Canchas() {
     const location = useLocation();
 
-    const { selectedDate, listaCanchas, canchaSeleccionada } = location.state || {}; // Si no hay estado, usar valores por defecto
+    const { selectedDate, listaCanchas, idCanchaSeleccionada, selectedCanchas } = location.state || {}; // Si no hay estado, usar valores por defecto
     const { canchas, loading, error } = useContext(CanchasContext); // Acceder al contexto
     const fechaActual = new Date();
     const opcionesFormato = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-     const canchaParaListar = [canchas[canchaSeleccionada-1]
-    ]
-     console.log("Canchas.js cancha para mostrar " +  canchaParaListar + "\nCancha seleccionada " ,  canchaSeleccionada)
+     const canchaParaListar = canchas[idCanchaSeleccionada-1]
+    
+     console.log("Canchas.js cancha para mostrar " +  canchaParaListar + "\nCancha seleccionada " , selectedCanchas)
     const fechaFormateada = fechaActual.toLocaleDateString('es-ES', opcionesFormato);
 
     const handleDateChange = (date) => {
@@ -99,7 +99,7 @@ function Canchas() {
                     </div>
 
                     {/* Renderizar las canchas */}
-                    {canchas.map((cancha) => (
+                    {selectedCanchas.map((cancha) => (
                         <div key={cancha.id} className="grid grid-cols-9 px-2 py-4 text-sm text-gray-700 border-b border-gray-200 gap-x-4 dark:border-gray-700">
                             <div className="text-gray-500 dark:text-gray-400 pl-0">
                                 {cancha.nombre}
