@@ -10,6 +10,9 @@ para crear reservas, ahora tiene hardcodeado cancha 1 - listo ahora toma todas l
 
 5- borrar canchas - listo, falta verificar que la cancha a borrar no tenga reservas
 
+6- mostrar horarios disponibles de la/s canchas seleccionadas en la pagina de Inicio,
+en la pag hacer reserva
+
 
  
 

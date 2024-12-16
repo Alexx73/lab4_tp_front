@@ -7,16 +7,17 @@ import DatePicker from 'react-datepicker';
 import { es } from 'date-fns/locale'; // Importar español
 
 
-
-
-
 function Canchas() {
+    const location = useLocation();
+
     const { selectedDate, listaCanchas, canchaSeleccionada } = location.state || {}; // Si no hay estado, usar valores por defecto
     const { canchas, loading, error } = useContext(CanchasContext); // Acceder al contexto
     const fechaActual = new Date();
     const opcionesFormato = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-
+     const canchaParaListar = [canchas[canchaSeleccionada-1]
+    ]
+     console.log("Canchas.js cancha para mostrar " +  canchaParaListar + "\nCancha seleccionada " ,  canchaSeleccionada)
     const fechaFormateada = fechaActual.toLocaleDateString('es-ES', opcionesFormato);
 
     const handleDateChange = (date) => {
