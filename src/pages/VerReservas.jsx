@@ -57,6 +57,20 @@ function VerReservas() {
     setShowModal(true);
   };
 
+ async function handleDeleteReservas(res) {
+  try {
+    const response = await axios.delete(
+      `http://localhost:5555/reservas/${res.id}`)
+      alert(`Reserva con ID: ${res.id} se borro exitosamente`)
+      // Actualizar el estado local eliminando la cancha borrada
+      setReservas((prevReservas) => prevReservas.filter((reserva) => reserva.id !== res.id));
+    
+  } catch (error) {
+    alert ("SE produjo un error, la reserva no se borro")
+  }
+  
+ }
+
   const handleCloseModal = () => {
     setSelectedReserva(null);
     setShowModal(false);
@@ -207,7 +221,7 @@ function VerReservas() {
         />
       </div>
 
-      
+
       <div className="mb-4 flex flex-col items-center">
         <label className="block text-sm font-medium text-center mb-2">Hora</label>
         <select
