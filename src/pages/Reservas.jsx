@@ -6,14 +6,9 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale'; // Importar español
 
 /// context
-
 import { CanchasContext } from '../context/CanchasContext';
-
-
-
 import Canchas from './Canchas'
 import FormReservas2 from '../components/FormReservas2'
-
 
 function Reservas(props) {
   // const [selectedDate, setSelectedDate] = useState(null);
@@ -25,9 +20,9 @@ function Reservas(props) {
   const location = useLocation();
   const fechaSeleccionadaPorUsuario = props.state
   
-  ///
-  const { selectedDate, listaCanchas, canchaSeleccionada } = location.state || {}; // Si no hay estado, usar valores por defecto
-  console.log(location.state)
+  /// // Si no hay estado, usar valores por defecto
+  const { selectedDate, listaCanchas, canchaSeleccionada } = location.state || {}; 
+  console.log(location.state?.canchaSeleccionada);
 
 
   // Obtiene la fecha actual
@@ -36,15 +31,8 @@ function Reservas(props) {
   const fechaFormateada = fechaActual.toLocaleDateString('es-ES', opcionesFormato);
 
   let fechaReserva = location.state && location.state.selectedDate ? location.state.selectedDate : fechaFormateada
-
   const { canchas } = useContext(CanchasContext); // Acceder al contexto
-  // console.log("Reservas canchas por context" , canchas)
-
-  // const canchas = ["Cancha 1", "Cancha 2", "Cancha 3", "Cancha 4", "Cancha 5", "Cancha 6"];
-
-
-      // Registra las props en la consola
-      // console.log(location.state);
+ 
 
   return (
     

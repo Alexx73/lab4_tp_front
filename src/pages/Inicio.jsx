@@ -77,31 +77,36 @@ const Inicio = () => {
                 Reserve su cancha fácilmente. Seleccione una fecha y haga su reserva.
             </p>
 
+
+                
             <div className="flex">
                 {/* Selector de fecha */}
-                <div className="mb-8 mx-8">
+                <div className="mb-8 mx-8"> 
                     <DatePicker
                         selected={selectedDate}
                         onChange={handleDateChange}
                         minDate={new Date()}
                         maxDate={new Date(new Date().setMonth(new Date().getMonth() + 1))}
                         dateFormat="dd/MM/yyyy"
-                        locale={es} // Aplicar el locale español
+                        // Aplicar el locale español
+                        locale={es} 
                         className="border rounded-lg p-2"
                         placeholderText="Seleccione una fecha"
                     />
                 </div>
 
                 {/* Selector de cancha */}
-                <div>
+                <div> 
                     <select 
                         id="cancha" 
                         value={cancha}
-                        onChange={(e) => handleSelectedCanchas(e)} // Convertir a entero
+                         // Convertir a entero
+                        onChange={(e) => handleSelectedCanchas(e)}
                         className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5"
                     >
                         <option value="">Elija una cancha</option>
-                        <option value="0">Todas</option> {/* Opción para seleccionar todas las canchas */}
+                        {/* Opción para seleccionar todas las canchas */}
+                        <option value="0">Todas</option> 
                         
                         {canchas && canchas.map((cancha) => (
                             <option key={cancha.id} value={cancha.id}>{cancha.nombre}</option>
