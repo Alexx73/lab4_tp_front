@@ -30,4 +30,6 @@ if (error) return <p>Error: {error}</p>;
  const response = await axios.patch(
         `http://localhost:5555/reservas/${selectedReserva.id}`,
 
+        http://localhost:5555
+
 

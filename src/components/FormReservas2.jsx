@@ -89,7 +89,7 @@ function FormReservas(props) {
 
     // Renderizado
     return (
-        <section className="bg-white dark:bg-gray-900">
+        <section className="bg-white dark:bg-gray-900  border-2 border-blue-500 rounded-lg  p-5 ml-4">
             <div className="px-4 mx-auto max-w-2xl">
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Agregar Reserva</h2>
                 <form onSubmit={AgregarReserva}>
@@ -143,7 +143,7 @@ function FormReservas(props) {
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="duracion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duración (horas)</label>
+                            <label htmlFor="duracion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duración</label>
                             <input 
                                 type="number"
                                 id="duracion"
