@@ -91,15 +91,18 @@ function ListaCanchas() {
     try {
       // Enviar solicitud DELETE al backend
       await axios.delete(`http://localhost:5555/canchas/${id}`);
-  
+      alert("Cancha borrada exitosamente");
       // Actualizar el estado local eliminando la cancha borrada
       setCanchas((prevCanchas) => prevCanchas.filter((cancha) => cancha.id !== id));
   
-      alert("Cancha borrada exitosamente");
+      
     } catch (error) {
-      setError("Error al borrar la cancha");
-      console.error("Error al borrar la cancha:", error);
-      alert("Hubo un error al borrar la cancha");
+      // setError("Error al borrar la cancha");
+        if (error.response && error.response.data && error.response.data.detail) {
+          alert(`Error: ${error.response.data.detail}`); // Muestra el detalle
+      } else {
+          alert("Error desconocido al intentar eliminar la cancha.");
+      }
     }
   }
   

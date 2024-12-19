@@ -4,6 +4,9 @@ import Cargando from '../components/Cargando';
 import { FaEdit } from 'react-icons/fa';
 import { MdDeleteForever } from 'react-icons/md';
 
+import 'flowbite';
+
+
 function VerReservas() {
   const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,10 +15,49 @@ function VerReservas() {
   const [selectedReserva, setSelectedReserva] = useState(null);
   const [canchas, setCanchas] = useState([]); // Lista de canchas disponibles
 
+
   const fechaActual = new Date(); 
   const date = new Date();
   const formattedDate = date.toLocaleString("es-ES", { month: "long" });
   const year = fechaActual.getFullYear();
+
+  const [isAlertOpen, setisAlertOpen] = useState(false)
+  const [reservaToDelete, setReservaToDelete] = useState(null);
+
+const handleDeleteReservas = (res) => {
+  setReservaToDelete(res); // Almacena la reserva seleccionada
+  setisAlertOpen(true);    // Abre el modal de alerta
+};
+
+const confirmDeleteReserva = async () => {
+  if (!reservaToDelete) return;
+
+  try {
+    await axios.delete(`http://localhost:5555/reservas/${reservaToDelete.id}`);
+    alert(`Reserva con ID: ${reservaToDelete.id} se borró exitosamente`);
+    
+    // Actualiza el estado eliminando la reserva de la lista
+    setReservas((prevReservas) =>
+      prevReservas.filter((reserva) => reserva.id !== reservaToDelete.id)
+    );
+  } catch (error) {
+    alert("Se produjo un error, la reserva no se borró");
+    console.error("Error al borrar la reserva:", error);
+  } finally {
+    setReservaToDelete(null); // Limpia la reserva seleccionada
+    setisAlertOpen(false);    // Cierra el modal
+  }
+};
+
+
+
+  function toggleAlert() {
+    setisAlertOpen(!isAlertOpen);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchReservas = async () => {
@@ -57,19 +99,19 @@ function VerReservas() {
     setShowModal(true);
   };
 
- async function handleDeleteReservas(res) {
-  try {
-    const response = await axios.delete(
-      `http://localhost:5555/reservas/${res.id}`)
-      alert(`Reserva con ID: ${res.id} se borro exitosamente`)
-      // Actualizar el estado local eliminando la cancha borrada
-      setReservas((prevReservas) => prevReservas.filter((reserva) => reserva.id !== res.id));
+//  async function handleDeleteReservas(res) {
+//   try {
+//     const response = await axios.delete(
+//       `http://localhost:5555/reservas/${res.id}`)
+//       alert(`Reserva con ID: ${res.id} se borro exitosamente`)
+//       // Actualizar el estado local eliminando la cancha borrada
+//       setReservas((prevReservas) => prevReservas.filter((reserva) => reserva.id !== res.id));
     
-  } catch (error) {
-    alert ("SE produjo un error, la reserva no se borro")
-  }
+//   } catch (error) {
+//     alert ("SE produjo un error, la reserva no se borro")
+//   }
   
- }
+//  }
 
   const handleCloseModal = () => {
     setSelectedReserva(null);
@@ -122,6 +164,15 @@ function VerReservas() {
       alert("Hubo un error al actualizar la reserva." + error.detail);
     }
   };
+
+   // Modal Alert
+   const handleOpenAlert = () => {
+    setisAlertOpen(true); // Abrir el Modal Alert
+};
+
+const handleCloseAlert = () => {
+  setisAlertOpen(false); // Cerrar el Modal Alert
+};
 
   if (loading) {
     return <Cargando />;
@@ -294,9 +345,44 @@ function VerReservas() {
   
 
   )}
+     {/* <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+           Toggle modal
+           </button> */}
 
+      {/* /// Modal alert  --- isAlertOpen  */}
+      {isAlertOpen && (
+  <div
+    id="popup-modal"
+    tabIndex="-1"
+    className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50"
+  >
+    <div className="relative p-4 w-full max-w-md max-h-full">
+      <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div className="p-4 md:p-5 text-center">
+          <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+            Are you sure you want to delete this product?
+          </h3>
+          <button
+            onClick={confirmDeleteReserva} // Llama a la función de confirmación
+            className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+          >
+            Yes, I'm sure
+          </button>
+          <button
+            onClick={() => setisAlertOpen(false)} // Cierra el modal sin eliminar
+            className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          >
+            No, cancel
+          </button>
+        </div>
+        </div>
+      </div>
+    </div>
+  )}
 
-      {/* /// */}
+       
+
+       {/* /// Modal */}
     </div>
   );
 }

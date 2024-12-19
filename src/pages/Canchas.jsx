@@ -97,6 +97,8 @@ function Canchas() {
         return <div>No hay canchas disponibles</div>;
     }
 
+   
+
     // Definir canchas a mostrar según la selección
     const canchasAMostrar =
         cancha === "0"

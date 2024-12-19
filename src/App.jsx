@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 
 import Reservas from './pages/Reservas'
 import VerReservas from './pages/VerReservas'
+import 'flowbite';
 
 
 function App() {
