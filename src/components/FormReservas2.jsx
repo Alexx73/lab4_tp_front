@@ -89,7 +89,7 @@ function FormReservas(props) {
 
     // Renderizado
     return (
-        <section className="bg-white dark:bg-gray-900  border-2 border-blue-500 rounded-lg  p-5 ml-4">
+        <section className="bg-indigo-100 dark:bg-gray-900  border-2 border-blue-500 rounded-lg  p-5 ml-4">
             <div className="px-4 mx-auto max-w-2xl">
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Agregar Reserva</h2>
                 <form onSubmit={AgregarReserva}>

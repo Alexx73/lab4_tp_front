@@ -90,8 +90,8 @@ const Inicio = () => {
                         dateFormat="dd/MM/yyyy"
                         // Aplicar el locale español
                         locale={es} 
-                        className="border rounded-lg p-2"
-                        placeholderText="Seleccione una fecha"
+                        className="border text-sm  rounded-lg p-2 block  w-5/6"
+                        placeholderText="Seleccione fecha"
                     />
                 </div>
 
@@ -102,7 +102,7 @@ const Inicio = () => {
                         value={cancha}
                          // Convertir a entero
                         onChange={(e) => handleSelectedCanchas(e)}
-                        className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5"
+                        className="bg-gray-50 border text-sm rounded-lg  block w-full p-2"
                     >
                         <option value="">Elija una cancha</option>
                         {/* Opción para seleccionar todas las canchas */}
@@ -119,7 +119,7 @@ const Inicio = () => {
             <button 
                 onClick={handleEnviar}
                 type="button" 
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-14 py-2.5 text-center me-2 mb-2"
+                className="text-black font-bold bg-indigo-300 from-blue-500 via-blue-600 to-blue-700 hover:bg-indigo-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-14 py-2.5 text-center me-2 mb-2"
             >
                 Enviar
             </button>

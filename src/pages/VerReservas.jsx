@@ -63,15 +63,29 @@ const confirmDeleteReserva = async () => {
     const fetchReservas = async () => {
       try {
         const response = await axios.get('http://localhost:5555/reservas');
-        console.log("respuest get reservas",response.data)
-
+        console.log("Respuesta de get reservas", response.data);
+  
+        // Ordenar las reservas: primero por fecha, luego por cancha, y finalmente por horario
         const sortedCanchas = response.data.sort((a, b) => {
-          if (a.cancha_id === b.cancha_id) {
-            return new Date(a.horario) - new Date(b.horario);
+          const fechaA = new Date(a.dia);
+          const fechaB = new Date(b.dia);
+  
+          // Comparar por fecha
+          if (fechaA - fechaB !== 0) {
+            return fechaA - fechaB;
           }
-          return a.cancha_id - b.cancha_id;
+  
+          // Comparar por cancha
+          if (a.cancha_id !== b.cancha_id) {
+            return a.cancha_id - b.cancha_id;
+          }
+  
+          // Comparar por horario
+          const horaA = new Date(`${a.dia}T${a.hora}`); // Asumiendo que `a.hora` está en formato HH:mm
+          const horaB = new Date(`${b.dia}T${b.hora}`);
+          return horaA - horaB;
         });
-
+  
         setReservas(sortedCanchas);
       } catch (error) {
         setError('Error al obtener las reservas');
@@ -80,19 +94,10 @@ const confirmDeleteReserva = async () => {
         setLoading(false);
       }
     };
-
-    const fetchCanchas = async () => {
-      try {
-        const response = await axios.get('http://localhost:5555/canchas');
-        setCanchas(response.data); // Guardar la lista de canchas en el estado
-      } catch (error) {
-        console.error("Error al obtener las canchas:", error);
-      }
-    };
-
+  
     fetchReservas();
-    fetchCanchas();
   }, []);
+  
 
   const handleEditReservas = (reserva) => {
     setSelectedReserva(reserva);
@@ -358,23 +363,23 @@ const handleCloseAlert = () => {
     tabIndex="-1"
     className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50"
   >
-    <div className="relative p-4 w-full max-w-md max-h-full">
+    <div className="relative p-1 w-full max-w-md max-h-full">
       <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <div className="p-4 md:p-5 text-center">
           <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-            Are you sure you want to delete this product?
+            Esta seguro que desea borrar esta reserva?
           </h3>
           <button
             onClick={confirmDeleteReserva} // Llama a la función de confirmación
-            className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+            className="text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
           >
-            Yes, I'm sure
+            Si, estoy seguro
           </button>
           <button
             onClick={() => setisAlertOpen(false)} // Cierra el modal sin eliminar
             className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
           >
-            No, cancel
+            No, cancelar
           </button>
         </div>
         </div>
