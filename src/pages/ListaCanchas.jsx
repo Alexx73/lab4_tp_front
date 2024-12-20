@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useContext } from 'react';
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import axios from 'axios';
+
+import { CanchasContext } from '../context/CanchasContext';
+
 
 function ListaCanchas() {
   const [canchas, setCanchas] = useState([]);
@@ -9,6 +12,11 @@ function ListaCanchas() {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedCancha, setSelectedCancha] = useState(null); // Estado para la cancha seleccionada
+
+  // { useContext }
+
+
+
 
   useEffect(() => {
     const fetchCanchas = async () => {

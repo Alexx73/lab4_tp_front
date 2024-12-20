@@ -2,7 +2,9 @@ import React from 'react'
 
 
 import ListaCanchas from './ListaCanchas'
-import FormReservas from '../components/FormCanchas'
+// import FormReservas from '../components/FormCanchas'
+import FormCanchas from '../components/FormCanchas'
+
 
 function VerCanchas() {
   
@@ -20,7 +22,7 @@ function VerCanchas() {
 
       {/* Componente FormReservas ocupa el 100% en pantallas pequeñas y 20% en medianas/grandes */}
       <div className="w-full md:w-1/5 min-w-[200px] max-w-[300px] mt-4 md:mt-0 ">
-        <FormReservas />
+        <FormCanchas  />
       </div>
     </div>
     </div>
