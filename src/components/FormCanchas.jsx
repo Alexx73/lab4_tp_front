@@ -34,25 +34,15 @@ function FormReservas({ setCanchas }) { // Asegúrate de recibir setCanchas como
             });
     
             // Actualizar el estado con la nueva cancha
-            setCanchas((prevCanchas) => [...prevCanchas, response.data]);
-    
+            setCanchas((prevCanchas) => [...prevCanchas, response.data]);    
             alert("Cancha creada correctamente");
     
             // Reiniciar el formulario
             setCancha({ nombre: "", techada: false });
         } catch (error) {
             // Manejar errores del backend o del cliente
-            alert("Error al crear la cancha:", error);
-            // if (error.response) {
-            //     if (error.response.status === 400) {
-            //         alert(error.response.data.detail); // Mostrar mensaje detallado del backend
-            //     } else {
-            //         alert(`Error del servidor: ${error.response.status}`);
-            //     }
-            // } else {
-            //     console.error("Error al crear la cancha:", error);
-            //     alert("Hubo un error al crear la cancha. Por favor, intenta nuevamente.");
-            // }
+            alert("Error al crear la cancha:" + "\n\n" +  error.response.data.detail);
+            console.log("error ", error.response.data.detail)
         }
     }
     
