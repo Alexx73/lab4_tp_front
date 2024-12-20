@@ -24,6 +24,21 @@ function FormReservas(props) {
     const [duracion, setDuracion] = useState(1);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+    /// Error personalizado para campo
+    const [error, setError] = useState('');
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setTelefono(value);
+
+        // Validar el número de teléfono
+        if (!/^\d{10}$/.test(value)) {
+            setError('El número de teléfono debe tener exactamente 10 dígitos.');
+        } else {
+            setError('');
+        }
+    };
+
     // Generar horas disponibles
     const horasDisponibles = [];
     for (let h = 14; h <= 21; h++) {
@@ -111,10 +126,11 @@ function FormReservas(props) {
                                 type="tel" 
                                 id="telefono"
                                 value={telefono}
-                                onChange={(e) => setTelefono(e.target.value)}
+                                onChange={(e) => handleChange(e)}
                                 pattern="\d{10}" 
-                                className="bg-gray-50 border text-sm rounded-lg block w-full p-2.5" 
+                                className={`bg-gray-50 border text-sm rounded-lg block w-full p-2.5 ${error ? 'border-red-500' : 'border-gray-300'}`} 
                                 placeholder="Ingrese su número" 
+                                maxLength={10}
                                 required 
                             />
                         </div>
