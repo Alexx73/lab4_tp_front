@@ -130,6 +130,8 @@ const confirmDeleteReserva = async () => {
 //     headers: { "Content-Type": "application/json" },
 // }
 //
+
+/// Edit ////
   const handleSaveChanges = async () => {
     if (!selectedReserva) return;
    
@@ -140,7 +142,7 @@ const confirmDeleteReserva = async () => {
         {
           dia: selectedReserva.dia,
           hora: selectedReserva.hora,
-          duracion: 1,
+          duracion: selectedReserva.duracion,
           telefono: selectedReserva.telefono,
           nombre_contacto: selectedReserva.nombre_contacto,         
           cancha_id: selectedReserva.cancha_id,
@@ -149,7 +151,7 @@ const confirmDeleteReserva = async () => {
       }
 
       );
-
+      console.log("datos enviados a endpoint patch: ", selectedReserva.duracion )
       // Actualizar la lista local con los nuevos datos
       setReservas((prevReservas) =>
         prevReservas.map((res) =>
@@ -161,7 +163,7 @@ const confirmDeleteReserva = async () => {
       handleCloseModal();
     } catch (error) {
       console.error("Error al actualizar la reserva:", error);
-      alert("Hubo un error al actualizar la reserva." + error.detail);
+      alert("Hubo un error al actualizar la reserva." + "\n" + error.response.data.detail);
     }
   };
 
